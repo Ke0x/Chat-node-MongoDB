@@ -43,7 +43,6 @@
             var messages = element('messages');
             var textarea = element('textarea');
             var username = element('username');
-            var clearBtn = element('clear');
             var statusDefault = status.textContent;
             var setStatus = function(s){
                 status.textContent = s;
@@ -69,9 +68,6 @@
                 });
                 socket.on('status', function(data){
                     setStatus((typeof data === 'object')? data.message : data);
-                    if(data.clear){
-                        textarea.value = '';
-                    }
                 });
                 textarea.addEventListener('keydown', function(event){
                     if(event.which === 13 && event.shiftKey == false){
@@ -82,12 +78,6 @@
                         event.preventDefault();
                     }
                 })
-                clearBtn.addEventListener('click', function(){
-                    socket.emit('clear');
-                });
-                socket.on('cleared', function(){
-                    messages.textContent = '';
-                });
             }
 
         })();
